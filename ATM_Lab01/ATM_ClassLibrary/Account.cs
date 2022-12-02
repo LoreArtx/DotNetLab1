@@ -69,7 +69,6 @@ namespace ATM_ClassLibrary
                 Message(this, new AccountEventArgs($"Рахунок поповнено на {money} грн."));
                 Balance += money;
                 atm.Balance += money;
-                Show_Balance();
             }
             else Message(this, new AccountEventArgs($"Невірно введено суму!"));
 
@@ -103,7 +102,6 @@ namespace ATM_ClassLibrary
                 {
                     Message(this, new AccountEventArgs($"На рахунку недостатньо коштів!"));
                 }
-                Show_Balance();
             }
             else Message(this, new AccountEventArgs($"Невірно введено суму"));
 

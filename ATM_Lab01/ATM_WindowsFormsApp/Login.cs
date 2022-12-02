@@ -61,5 +61,10 @@ namespace ATM_WindowsFormsApp
         {
             Application.Exit();
         }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

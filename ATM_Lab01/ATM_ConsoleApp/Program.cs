@@ -163,7 +163,15 @@ namespace ATM_ConsoleApp
             }
             void Menu()
             {
-                Console.WriteLine($"\n{account.Name} {account.Surname}, Вас вітає '{bank.Name}'\nТермінал №{atm.Id}\nВулиця: {atm.Address}\n\nОберіть потрібну вам дію: \n1 - Показати рахунок\n2 - Поповнити рахунок\n3 - Зняти гроші\n4 - Перейти в інший термінал\n5 - Використати термінал іншого банку\n0 - Вихід");
+                Console.WriteLine($"\n{account.Name} {account.Surname}, Вас вітає '{bank.Name}'\nТермінал №{atm.Id}\nАдреса: {atm.Address}");
+                Console.WriteLine($"\nОберіть потрібну вам дію: ");
+                Console.WriteLine("1 - Показати рахунок");
+                Console.WriteLine("2 - Поповнити рахунок");
+                Console.WriteLine("3 - Зняти гроші");
+                Console.WriteLine("4 - Перейти в інший термінал");
+                Console.WriteLine("5 - Використати термінал іншого банку");
+                Console.WriteLine("6 - Переказати кошти на інший рахунок");
+                Console.WriteLine("0 - Вихід");
                 int a;
                 string amount;
                 if (!Int32.TryParse(Console.ReadLine(), out a))
@@ -183,6 +191,7 @@ namespace ATM_ConsoleApp
                         Console.WriteLine("Введіть суму, що хочете внести у рахунок:");
                         amount = Console.ReadLine();
                         account.Deposit(amount, atm);
+                        account.Show_Balance();
                         Menu();
                         break;
                     case 3:
@@ -190,6 +199,7 @@ namespace ATM_ConsoleApp
                         Console.WriteLine("Введіть суму, що хочете вивести:");
                         amount = Console.ReadLine();
                         account.Withdraw(amount, atm);
+                        account.Show_Balance();
                         Menu();
                         break;
                     case 4:
@@ -204,6 +214,33 @@ namespace ATM_ConsoleApp
                         bank = Select_Bank();
                         atm = Select_ATM(bank);
                         Console.Clear();
+                        Menu();
+                        break;
+
+                    case 6:
+                        Console.Clear();
+                        Console.WriteLine("Введіть картку на яку хочете внести кошти :");
+                        string number = Console.ReadLine();
+                        foreach (Account acc in Accounts)
+                        {
+                            if (acc.Number == number)
+                            {
+                                Console.WriteLine("Введіть суму, що хочете внести у рахунок:");
+                                amount = Console.ReadLine();
+                                double money;
+                                if (Double.TryParse(amount,out money))
+                                {
+                                    acc.Balance += money;
+                                    account.Balance -= money;
+                                    Console.WriteLine($"Рахунок поповнено на {money} грн.");
+                                }
+                                break;
+                            }
+                            else if (acc.Number != number && Accounts[Accounts.Count - 1] == acc)
+                            {
+                                Console.WriteLine("Невірно введено номер картки");
+                            }
+                        }
                         Menu();
                         break;
                     case 0:
